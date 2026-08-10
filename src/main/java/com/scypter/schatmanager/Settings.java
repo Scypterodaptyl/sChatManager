@@ -16,6 +16,7 @@ public final class Settings {
     private List<String> blockedCommands = Collections.emptyList();
     private List<String> commandMessage = Collections.emptyList();
     private List<String> reloadMessage = Collections.emptyList();
+    private List<String> errorMessage = Collections.emptyList();
 
     public void load(FileConfiguration config) {
         ConfigurationSection chat = config.getConfigurationSection("chat");
@@ -27,6 +28,8 @@ public final class Settings {
         blockAllCommands = commands != null && commands.getBoolean("block-all", false);
         commandMessage = Text.lines(commands, "message", "&cЭта команда заблокирована.");
         reloadMessage = Text.lines(config, "reload-message", "&aКонфигурация sChatManager перезагружена.");
+        errorMessage = Text.lines(config, "error-message",
+                "&cОшибка в config.yml, настройки не изменены. Подробности в консоли.");
 
         List<String> blacklist = new ArrayList<String>();
         if (commands != null) {
@@ -73,6 +76,10 @@ public final class Settings {
 
     public List<String> getReloadMessage() {
         return reloadMessage;
+    }
+
+    public List<String> getErrorMessage() {
+        return errorMessage;
     }
 
     public String describeCommands() {

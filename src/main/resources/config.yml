@@ -14,3 +14,4 @@ commands:
   message: "&cЭта команда заблокирована."
 
 reload-message: "&aКонфигурация sChatManager перезагружена."
+error-message: "&cОшибка в config.yml, настройки не изменены. Подробности в консоли."
