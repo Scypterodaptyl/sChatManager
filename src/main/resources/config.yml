@@ -1,0 +1,16 @@
+chat:
+  enabled: false
+  message: "&cЧат на сервере отключён."
+
+commands:
+  block-all: false
+  blacklist:
+    - "msg"
+    - "tell"
+    - "w"
+    - "r"
+    - "me"
+    - "say"
+  message: "&cЭта команда заблокирована."
+
+reload-message: "&aКонфигурация sChatManager перезагружена."

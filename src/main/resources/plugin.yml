@@ -1,0 +1,11 @@
+name: sChatManager
+main: com.scypter.schatmanager.SChatManager
+version: ${version}
+author: ScypterV
+description: Полное отключение чата и блокировка команд.
+api-version: 1.13
+commands:
+  schatmanager:
+    description: Управление sChatManager
+    usage: /schatmanager reload
+    aliases: [scm, schat]

@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.scypter'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+}
+
+configurations {
+    modernApi
+}
+
+dependencies {
+    compileOnly('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {
+        exclude group: 'net.md-5'
+    }
+    modernApi 'io.papermc.paper:paper-api:26.2.build.111-stable'
+}
+
+def verifyModernApi = tasks.register('verifyModernApi', JavaCompile) {
+    source = sourceSets.main.java
+    classpath = configurations.modernApi
+    destinationDirectory = layout.buildDirectory.dir('classes/java/verify-modern')
+    options.encoding = 'UTF-8'
+    options.release = 25
+    options.compilerArgs << '-nowarn'
+    javaCompiler = javaToolchains.compilerFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.named('check') {
+    dependsOn verifyModernApi
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 8
+}
+
+tasks.withType(ProcessResources).configureEach {
+    filteringCharset = 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand(version: project.version)
+    }
+}
+
+jar {
+    archiveBaseName = 'sChatManager'
+    archiveClassifier = ''
+}
