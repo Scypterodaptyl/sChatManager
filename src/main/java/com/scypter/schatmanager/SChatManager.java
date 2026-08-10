@@ -12,23 +12,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public final class SChatManager extends JavaPlugin implements CommandExecutor {
 
-    private static final long NOTIFY_COOLDOWN = 250L;
-
     private final Settings settings = new Settings();
-    private final Map<UUID, Long> lastNotify = new ConcurrentHashMap<UUID, Long>();
     private final Set<String> ownLabels = new HashSet<String>();
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        settings.load(getConfig());
+        reload();
 
         collectOwnLabels();
 
@@ -38,11 +32,18 @@ public final class SChatManager extends JavaPlugin implements CommandExecutor {
         if (command != null) {
             command.setExecutor(this);
         }
+
+        getLogger().info("Включён: чат " + (settings.isChatEnabled() ? "разрешён" : "заблокирован")
+                + ", " + settings.describeCommands() + ".");
     }
 
-    @Override
-    public void onDisable() {
-        lastNotify.clear();
+    private void reload() {
+        settings.load(getConfig());
+        if (getConfig().getConfigurationSection("chat") == null
+                || getConfig().getConfigurationSection("commands") == null) {
+            getLogger().warning("В config.yml нет секций chat и/или commands, "
+                    + "применены значения по умолчанию. Проверьте синтаксис файла.");
+        }
     }
 
     private void collectOwnLabels() {
@@ -64,7 +65,7 @@ public final class SChatManager extends JavaPlugin implements CommandExecutor {
             return;
         }
         cancel(event);
-        if (player != null && canNotify(player)) {
+        if (player != null) {
             send(player, settings.getChatMessage());
         }
     }
@@ -110,16 +111,6 @@ public final class SChatManager extends JavaPlugin implements CommandExecutor {
         return settings.isCommandBlocked(normalized);
     }
 
-    public void forget(Player player) {
-        lastNotify.remove(player.getUniqueId());
-    }
-
-    private boolean canNotify(Player player) {
-        long now = System.currentTimeMillis();
-        Long previous = lastNotify.put(player.getUniqueId(), now);
-        return previous == null || now - previous > NOTIFY_COOLDOWN;
-    }
-
     public void send(CommandSender target, List<String> lines) {
         for (String line : lines) {
             target.sendMessage(line);
@@ -133,7 +124,7 @@ public final class SChatManager extends JavaPlugin implements CommandExecutor {
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             reloadConfig();
-            settings.load(getConfig());
+            reload();
             send(sender, settings.getReloadMessage());
             return true;
         }

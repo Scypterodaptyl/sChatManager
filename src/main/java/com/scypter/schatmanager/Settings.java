@@ -75,6 +75,16 @@ public final class Settings {
         return reloadMessage;
     }
 
+    public String describeCommands() {
+        if (blockAllCommands) {
+            return "заблокированы все";
+        }
+        if (blockedCommands.isEmpty()) {
+            return "блеклист пуст";
+        }
+        return "в блеклисте " + blockedCommands.size();
+    }
+
     public boolean isCommandBlocked(String command) {
         if (blockAllCommands) {
             return true;

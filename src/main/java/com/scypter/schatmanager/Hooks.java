@@ -6,7 +6,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public final class Hooks implements Listener {
 
@@ -15,7 +14,6 @@ public final class Hooks implements Listener {
             "org.bukkit.event.player.AsyncPlayerChatEvent"
     };
     private static final String COMMAND_EVENT = "org.bukkit.event.player.PlayerCommandPreprocessEvent";
-    private static final String QUIT_EVENT = "org.bukkit.event.player.PlayerQuitEvent";
 
     private Hooks() {
     }
@@ -24,7 +22,6 @@ public final class Hooks implements Listener {
         Listener listener = new Hooks();
         registerChat(plugin, listener);
         registerCommands(plugin, listener);
-        registerQuit(plugin, listener);
     }
 
     private static void registerChat(final SChatManager plugin, Listener listener) {
@@ -46,7 +43,6 @@ public final class Hooks implements Listener {
                     plugin.enforceChat(event);
                 }
             });
-            plugin.getLogger().info("Чат: " + name);
             return;
         }
         plugin.getLogger().severe("Не найдено ни одного события чата, блокировка чата не работает.");
@@ -68,15 +64,6 @@ public final class Hooks implements Listener {
             public void handle(Event event) {
                 PlayerCommandPreprocessEvent command = (PlayerCommandPreprocessEvent) event;
                 plugin.enforceCommand(command, command.getMessage());
-            }
-        });
-        plugin.getLogger().info("Команды: " + COMMAND_EVENT);
-    }
-
-    private static void registerQuit(final SChatManager plugin, Listener listener) {
-        Events.register(plugin, listener, Events.find(plugin, QUIT_EVENT), EventPriority.MONITOR, new Events.Handler() {
-            public void handle(Event event) {
-                plugin.forget(((PlayerQuitEvent) event).getPlayer());
             }
         });
     }
