@@ -3,7 +3,7 @@
 A Bukkit/Spigot/Paper plugin that turns off chat completely and blocks blacklisted commands.
 No permissions, no bypasses — the block applies to every player equally.
 
-One jar covers every server version from **1.8 to 26.2**.
+One jar covers every server version from **1.8 to 26.3**.
 
 ## Features
 
@@ -15,7 +15,7 @@ One jar covers every server version from **1.8 to 26.2**.
 
 ## Installation
 
-1. Drop `sChatManager-1.0.0.jar` into the server's `plugins` folder.
+1. Drop `sChatManager-1.0.1.jar` into the server's `plugins` folder.
 2. Start the server once to generate `plugins/sChatManager/config.yml`.
 3. Edit the config and run `/schatmanager reload`.
 
@@ -89,7 +89,7 @@ gradle build
 ```
 
 Requires JDK 21 to build, since JDK 25 can no longer target Java 8. The `verifyModernApi`
-task additionally recompiles the sources against `paper-api 26.2` and needs a JDK 25
+task additionally recompiles the sources against `paper-api 26.3` and needs a JDK 25
 installed for its toolchain; it runs as part of `check`.
 
 

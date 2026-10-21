@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.scypter'
-version = '1.0.0'
+version = '1.0.1'
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ dependencies {
     compileOnly('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {
         exclude group: 'net.md-5'
     }
-    modernApi 'io.papermc.paper:paper-api:26.2.build.111-stable'
+    modernApi 'io.papermc.paper:paper-api:26.3.build.211-stable'
 }
 
 def verifyModernApi = tasks.register('verifyModernApi', JavaCompile) {
