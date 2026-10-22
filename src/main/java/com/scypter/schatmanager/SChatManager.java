@@ -1,5 +1,6 @@
 package com.scypter.schatmanager;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,8 @@ import java.util.Set;
 
 public final class SChatManager extends JavaPlugin implements CommandExecutor {
 
+    private static final int BSTATS_ID = 34863;
+
     private final Settings settings = new Settings();
     private final Set<String> ownLabels = new HashSet<String>();
     private boolean loaded;
@@ -32,6 +35,8 @@ public final class SChatManager extends JavaPlugin implements CommandExecutor {
         collectOwnLabels();
 
         Hooks.register(this);
+
+        new Metrics(this, BSTATS_ID);
 
         PluginCommand command = getCommand("schatmanager");
         if (command != null) {

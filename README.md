@@ -15,7 +15,7 @@ One jar covers every server version from **1.8 to 26.3**.
 
 ## Installation
 
-1. Drop `sChatManager-1.0.1.jar` into the server's `plugins` folder.
+1. Drop `sChatManager-1.0.2.jar` into the server's `plugins` folder.
 2. Start the server once to generate `plugins/sChatManager/config.yml`.
 3. Edit the config and run `/schatmanager reload`.
 
