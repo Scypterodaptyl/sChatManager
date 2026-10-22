@@ -10,13 +10,13 @@ import java.util.Locale;
 
 public final class Settings {
 
-    private boolean chatEnabled;
-    private List<String> chatMessage = Collections.emptyList();
-    private boolean blockAllCommands;
-    private List<String> blockedCommands = Collections.emptyList();
-    private List<String> commandMessage = Collections.emptyList();
-    private List<String> reloadMessage = Collections.emptyList();
-    private List<String> errorMessage = Collections.emptyList();
+    private volatile boolean chatEnabled;
+    private volatile List<String> chatMessage = Collections.emptyList();
+    private volatile boolean blockAllCommands;
+    private volatile List<String> blockedCommands = Collections.emptyList();
+    private volatile List<String> commandMessage = Collections.emptyList();
+    private volatile List<String> reloadMessage = Collections.emptyList();
+    private volatile List<String> errorMessage = Collections.emptyList();
 
     public void load(FileConfiguration config) {
         ConfigurationSection chat = config.getConfigurationSection("chat");
